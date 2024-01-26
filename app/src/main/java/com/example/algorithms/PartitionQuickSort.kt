@@ -42,18 +42,6 @@ fun main() {
     println(less.size)
     println(greaterOrEq.size)
 }
-fun quicksort(array: MutableList<Int>, l: Int, r: Int) {
-    if (r - l >= 1) { // Если база - 1 эл-т  - просто выйдем из рекурсии
-
-        val x = array.subList(l, r).random()
-        println("random x = $x")
-        val p = partition(x, array, l, r)
-        println("p = $p")
-
-        quicksort(array, l, p)
-        quicksort(array, p, r)
-    }
-}
 fun partition(x: Int, array: MutableList<Int>, l: Int, r: Int): Int {
     var (L, R) = l to r
 
@@ -64,7 +52,6 @@ fun partition(x: Int, array: MutableList<Int>, l: Int, r: Int): Int {
     while (R - L > 1) {  // TODO оптимизируем проверку выхода за границы массива
         while (R - L > 1 && array[L] < x) {
             L += 1
-            println("log L = $L r = $r")
         }
         while (R > 0 && array[R-1] >= x)  // Берем R-1, т к R указывает за границу подмассива. При этом не допустить выхода за границу массиа влево
             R -= 1
