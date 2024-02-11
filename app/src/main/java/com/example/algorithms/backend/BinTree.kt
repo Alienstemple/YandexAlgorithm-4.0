@@ -3,20 +3,17 @@
  */
 
 fun main() {
-//    val (N: Int, Q: Int) = readln().split(" ").map { it.toInt() }
-//    val swaps: List<Int> = readln().split(" ").map { it.toInt() }
-
-    // TODO n не хранить после иниц потомков
+    val (N: Int, Q: Int) = readln().split(" ").map { it.toInt() }
+    val swaps: List<Int> = readln().split(" ").map { it.toInt() }
 
     // Построим дерево
-    val tree = Tree(20)
-    tree.printTreeBfs()
+    val tree = Tree(N)
+//    tree.printTreeRecursive()
 
-    val swaps = listOf(2) // FIXME часть теряется без pp 2 3
     swaps.forEach { key ->
         tree.swap(key)
-        tree.printTreeBfs()
     }
+    tree.printTreeRecursive()
 }
 
 class Node(
@@ -58,12 +55,23 @@ class Tree(n: Int) {
     }
 
     fun printTreeBfs() {
-        println("Tree")
         queue.add(root)
         bfs { node ->
             print("${node.key} ")
         }
     }  // BFS
+
+    fun printTreeRecursive() {
+        val treeString = treeString(root).removePrefix(" ")
+        println(treeString)
+    }
+
+    private fun treeString(v: Node?): String {
+        if (v == null)
+            return ""
+
+        return "${treeString(v.left)} ${v.key} ${treeString(v.right)}"
+    }
 
     private fun bfs(action: (node: Node) -> Unit) {
         while (queue.isNotEmpty()) {
@@ -128,35 +136,9 @@ class Tree(n: Int) {
                 pp.right = v
             }
             v.parent = pp
+        } else {
+            root = v
+            v.parent = null
         }
     }
-
-//        var p = v?.parent
-//        var vl = v.left
-//        if (p == root) {
-//            root = v
-//        } else {
-//            var pp = p.parent
-//            if (p == pp.left) {
-//                pp.left = v
-//            } else {
-//                pp.right = v
-//            }
-//            v.parent = pp
-//        }
-//        if (p?.left == v) {  // TDO child null
-//            p.left = v.left
-//            p.left.parent = p
-//            v.left = p
-//
-//        } else {
-//            p.right = v.right
-//            v.right = p
-//        }
-//        p.parent = v
-//
-//
-//        vl.parent = p
-//    }
-
 }
